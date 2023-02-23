@@ -4,6 +4,7 @@ import React, { InputHTMLAttributes } from 'react';
 import { styled } from '@mui/material';
 
 interface LabeledInputProps {
+  textAlign?: string;
   inputProps?: InputHTMLAttributes<HTMLInputElement>;
   startLabel?: string | React.ReactNode;
   endLabel?: string | React.ReactNode;
@@ -12,13 +13,13 @@ interface LabeledInputProps {
   disabled?: boolean;
 }
 
-const StyledInput = styled('input')`
+const StyledInput = styled('input')<{ textAlign?: string }>`
   &:focus {
     outline: none;
   }
 
   flex-grow: 1;
-  text-align: right;
+  ${({ textAlign }) => `text-align:${textAlign}`};
   width: 70%;
   font-size: 14px;
   font-weight: 500;
@@ -29,6 +30,7 @@ const StyledInput = styled('input')`
 `;
 
 const LabeledInput = ({
+  textAlign,
   inputProps,
   startLabel,
   endLabel,
@@ -45,7 +47,7 @@ const LabeledInput = ({
     {...(disabled && { sx: { background: '#f2f2f2' } })}
   >
     {typeof startLabel === 'string' ? (
-      <Typography variant="subtitle2" color="#b4b4b4" position="absolute">
+      <Typography variant="h4" color="#b4b4b4" position="absolute">
         {startLabel}
       </Typography>
     ) : (
@@ -54,13 +56,14 @@ const LabeledInput = ({
 
     <StyledInput
       {...inputProps}
+      textAlign={textAlign}
       value={value}
       onChange={onChange}
       disabled={disabled}
     />
 
     {typeof endLabel === 'string' ? (
-      <Typography variant="subtitle2" color={disabled ? '#b4b4b4' : '#222222'}>
+      <Typography variant="h4" color={disabled ? '#b4b4b4' : '#222222'}>
         {endLabel}
       </Typography>
     ) : (

@@ -9,16 +9,8 @@ import LabeledInput from '../../../components/LabeledInput';
 import { Button, Checkbox, FormControlLabel, styled } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import BoxGroup from '../../../components/BoxGroup';
-
-type RentType = 'MONTHLY' | 'JEONSE';
-type FormData = {
-  rentType?: RentType;
-  deposit?: string;
-  monthlyRent?: string;
-  maintenanceFee?: string;
-  monthlyRentPaymentDate?: string;
-  checkMaintenanceFee?: boolean;
-};
+import { setPayload as fakeServerRequest } from '../../../utils/LocalStorageUtil';
+import { useNavigate } from 'react-router-dom';
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   color: '#222222',
@@ -38,7 +30,7 @@ const getMissingFields = ({
   monthlyRent,
   monthlyRentPaymentDate,
   maintenanceFee,
-}: FormData) => {
+}: LookupFormData) => {
   if (!rentType) return [];
 
   const missingFields = [];
@@ -58,19 +50,32 @@ const getMissingFields = ({
 };
 
 const LookupForm = () => {
-  const { control, handleSubmit, watch, setValue } = useForm();
+  const navigate = useNavigate();
+  const { control, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      rentType: undefined,
+      deposit: '',
+      monthlyRent: '',
+      maintenanceFee: '',
+      monthlyRentPaymentDate: '',
+      checkMaintenanceFee: false,
+    },
+  });
 
   const watchRentType: RentType | undefined = watch('rentType');
   const watchMaintenanceFee = watch('maintenanceFee');
   const watchCheckMaintenanceFee = watch('checkMaintenanceFee');
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<LookupFormData> = async (data) => {
     const missingFields = getMissingFields(data);
     if (missingFields.length > 0) {
       window.alert(missingFields.join());
     } else {
-      window.alert('저장');
-      console.log(data);
+      // TODO: 실제 서버에 저장하도록 변경
+      const response = await fakeServerRequest(data);
+      if (response) {
+        navigate('/request');
+      }
     }
   };
 
@@ -130,6 +135,7 @@ const LookupForm = () => {
                 name="deposit"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
+                    textAlign="right"
                     inputProps={{ inputMode: 'decimal' }}
                     value={value}
                     onChange={onChange}
@@ -145,6 +151,7 @@ const LookupForm = () => {
                   name="monthlyRent"
                   render={({ field: { value, onChange } }) => (
                     <LabeledInput
+                      textAlign="right"
                       inputProps={{ inputMode: 'decimal' }}
                       value={value}
                       onChange={onChange}
@@ -161,6 +168,7 @@ const LookupForm = () => {
                 name="maintenanceFee"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
+                    textAlign="right"
                     inputProps={{ inputMode: 'decimal' }}
                     value={value}
                     onChange={onChange}
@@ -175,6 +183,7 @@ const LookupForm = () => {
                 name="monthlyRentPaymentDate"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
+                    textAlign="right"
                     inputProps={{
                       inputMode: 'decimal',
                       maxLength: 2,
