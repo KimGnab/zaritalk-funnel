@@ -1,10 +1,13 @@
+import React from 'react';
+
+import { format } from 'date-fns';
+import { Icon } from '@iconify/react';
+import { styled } from '@mui/material';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import LabeledText from './LabeledText';
-import { format } from 'date-fns';
-import { Button, styled } from '@mui/material';
-import { Icon } from '@iconify/react';
-import React from 'react';
 
 interface InformationCardProps {
   info: LookupFormData & RequestFormData;

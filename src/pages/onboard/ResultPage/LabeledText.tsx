@@ -1,6 +1,7 @@
+import React from 'react';
+
 import Box, { BoxProps } from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import React from 'react';
 
 const LabeledText = ({
   label,

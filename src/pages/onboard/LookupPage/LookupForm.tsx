@@ -1,16 +1,22 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import React, { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Icon } from '@iconify/react';
+
+import { styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import Section from '../../../components/Section';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import Box from '@mui/material/Box';
-import { Icon } from '@iconify/react';
-import Typography from '@mui/material/Typography';
 import LabeledInput from '../../../components/LabeledInput';
-import { Button, Checkbox, FormControlLabel, styled } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import BoxGroup from '../../../components/BoxGroup';
 import { setPayload as fakeSetRequest } from '../../../utils/LocalStorageUtil';
-import { useNavigate } from 'react-router-dom';
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   color: '#222222',

@@ -1,15 +1,20 @@
+import React from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Icon } from '@iconify/react';
+
+import { styled } from '@mui/material';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+
 import Section from '../../../components/Section';
 import BoxGroup from '../../../components/BoxGroup';
 import LabeledInput from '../../../components/LabeledInput';
-import { Icon } from '@iconify/react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { Button, styled, TextField } from '@mui/material';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-import React, { useState } from 'react';
 import { updatePayload as fakeUpdateRequest } from '../../../utils/LocalStorageUtil';
 
 const StyledTextField = styled(TextField)({
@@ -41,7 +46,7 @@ const getMissingFields = (data: RequestFormData) => {
 
 const RequestForm = () => {
   const navigate = useNavigate();
-  const { control, handleSubmit, watch, setValue } = useForm<RequestFormData>({
+  const { control, handleSubmit, watch } = useForm<RequestFormData>({
     defaultValues: {
       address: '',
       roomNumber: '',

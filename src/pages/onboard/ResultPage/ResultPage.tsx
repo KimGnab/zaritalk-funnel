@@ -1,9 +1,10 @@
-import Box from '@mui/material/Box';
 import React, { useEffect } from 'react';
 
-import { getPayload } from '../../../utils/LocalStorageUtil';
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+
 import InformationCard from './InformationCard';
+import { getPayload } from '../../../utils/LocalStorageUtil';
 
 function resultPage() {
   const navigate = useNavigate();

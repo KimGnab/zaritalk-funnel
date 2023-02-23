@@ -1,4 +1,5 @@
 type RentType = 'MONTHLY' | 'JEONSE';
+
 type LookupFormData = {
   rentType?: RentType;
   deposit?: string;
