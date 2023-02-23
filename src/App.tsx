@@ -1,25 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Lookup from './pages/onboard/LookupPage';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/lookup" element={<Lookup />} />
+        {/*<Route path="/request" element={<Lookup />} />*/}
+        {/*<Route path="/result" element={<Lookup />} />*/}
+        <Route path="/*" element={<Navigate to="/lookup"></Navigate>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
