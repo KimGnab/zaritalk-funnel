@@ -9,7 +9,7 @@ import LabeledInput from '../../../components/LabeledInput';
 import { Button, Checkbox, FormControlLabel, styled } from '@mui/material';
 import ToggleButton from '@mui/material/ToggleButton';
 import BoxGroup from '../../../components/BoxGroup';
-import { setPayload as fakeServerRequest } from '../../../utils/LocalStorageUtil';
+import { setPayload as fakeSetRequest } from '../../../utils/LocalStorageUtil';
 import { useNavigate } from 'react-router-dom';
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
@@ -72,7 +72,7 @@ const LookupForm = () => {
       window.alert(missingFields.join());
     } else {
       // TODO: 실제 서버에 저장하도록 변경
-      const response = await fakeServerRequest(data);
+      const response = await fakeSetRequest(data);
       if (response) {
         navigate('/request');
       }

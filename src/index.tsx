@@ -4,6 +4,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import koLocale from 'date-fns/locale/ko';
 
 const theme = createTheme({
   palette: {
@@ -68,8 +71,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <App />
+      <LocalizationProvider
+        dateAdapter={AdapterDateFns}
+        adapterLocale={koLocale}
+      >
+        <CssBaseline />
+        <App />
+      </LocalizationProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
