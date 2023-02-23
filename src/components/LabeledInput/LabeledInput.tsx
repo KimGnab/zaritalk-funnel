@@ -1,12 +1,13 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { styled } from '@mui/material';
 
 interface LabeledInputProps {
+  inputProps?: InputHTMLAttributes<HTMLInputElement>;
   startLabel?: string | React.ReactNode;
   endLabel?: string | React.ReactNode;
-  value?: string;
+  value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
 }
@@ -28,6 +29,7 @@ const StyledInput = styled('input')`
 `;
 
 const LabeledInput = ({
+  inputProps,
   startLabel,
   endLabel,
   value,
@@ -50,7 +52,12 @@ const LabeledInput = ({
       startLabel
     )}
 
-    <StyledInput value={value} onChange={onChange} disabled={disabled} />
+    <StyledInput
+      {...inputProps}
+      value={value}
+      onChange={onChange}
+      disabled={disabled}
+    />
 
     {typeof endLabel === 'string' ? (
       <Typography variant="subtitle2" color={disabled ? '#b4b4b4' : '#222222'}>

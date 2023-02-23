@@ -32,28 +32,51 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   },
 }));
 
+const getMissingFields = ({
+  rentType,
+  deposit,
+  monthlyRent,
+  monthlyRentPaymentDate,
+  maintenanceFee,
+}: FormData) => {
+  if (!rentType) return [];
+
+  const missingFields = [];
+  if (!deposit || Number(deposit) < 0) missingFields.push('deposit');
+
+  if (rentType === 'MONTHLY') {
+    if (!monthlyRent || Number(monthlyRent) < 0)
+      missingFields.push('monthlyRent');
+    if (!monthlyRentPaymentDate || Number(monthlyRentPaymentDate) < 1)
+      missingFields.push('monthlyRentPaymentDate');
+  }
+
+  if (!maintenanceFee || Number(maintenanceFee) < 0)
+    missingFields.push('maintenanceFee');
+
+  return missingFields;
+};
+
 const LookupForm = () => {
   const { control, handleSubmit, watch, setValue } = useForm();
 
-  const watchRentType = watch('rentType');
+  const watchRentType: RentType | undefined = watch('rentType');
+  const watchMaintenanceFee = watch('maintenanceFee');
   const watchCheckMaintenanceFee = watch('checkMaintenanceFee');
 
-  const onSubmit: SubmitHandler<{
-    rentType?: 'MONTHLY' | 'JEONSE';
-    deposit?: number;
-    monthlyRent?: number;
-    maintenanceFee?: number;
-    monthlyRentPaymentDate?: number;
-    checkMaintenanceFee?: boolean;
-  }> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    const missingFields = getMissingFields(data);
+    if (missingFields.length > 0) {
+      window.alert(missingFields.join());
+    } else {
+      window.alert('저장');
+      console.log(data);
+    }
   };
 
   useEffect(() => {
-    if (watchCheckMaintenanceFee) {
-      setValue('maintenanceFee', 0);
-      setValue('monthlyRentPaymentDate', '');
-    }
+    setValue('maintenanceFee', '0');
+    if (watchRentType === 'JEONSE') setValue('monthlyRentPaymentDate', '');
   }, [watchCheckMaintenanceFee]);
 
   return (
@@ -76,7 +99,7 @@ const LookupForm = () => {
         />
       </Section>
 
-      {watchRentType && (
+      {!!watchRentType && (
         <>
           <Section title="임대비용" sx={{ marginTop: '50px' }}>
             <Box display="flex" gap="4px" color="#7A7A7A">
@@ -107,6 +130,7 @@ const LookupForm = () => {
                 name="deposit"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
+                    inputProps={{ inputMode: 'decimal' }}
                     value={value}
                     onChange={onChange}
                     startLabel="보증금"
@@ -121,6 +145,7 @@ const LookupForm = () => {
                   name="monthlyRent"
                   render={({ field: { value, onChange } }) => (
                     <LabeledInput
+                      inputProps={{ inputMode: 'decimal' }}
                       value={value}
                       onChange={onChange}
                       startLabel="월 임대료"
@@ -136,6 +161,7 @@ const LookupForm = () => {
                 name="maintenanceFee"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
+                    inputProps={{ inputMode: 'decimal' }}
                     value={value}
                     onChange={onChange}
                     startLabel="월 관리비"
@@ -149,12 +175,17 @@ const LookupForm = () => {
                 name="monthlyRentPaymentDate"
                 render={({ field: { value, onChange } }) => (
                   <LabeledInput
-                    value={value}
+                    inputProps={{
+                      inputMode: 'decimal',
+                      maxLength: 2,
+                    }}
+                    value={value ? value : ''}
                     onChange={onChange}
                     startLabel="임대료 납부일"
                     endLabel="일"
                     disabled={
-                      watchCheckMaintenanceFee && watchRentType === 'JEONSE'
+                      watchRentType === 'JEONSE' &&
+                      Number(watchMaintenanceFee) <= 0
                     }
                   />
                 )}
