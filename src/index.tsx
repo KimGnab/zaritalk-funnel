@@ -17,6 +17,11 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: 'Apple SD Gothic Neo',
+    h2: {
+      fontWeight: 700,
+      fontSize: '16px',
+      lineHeight: '24px',
+    },
     h3: {
       fontWeight: 700,
       fontSize: '20px',
@@ -32,10 +37,15 @@ const theme = createTheme({
       fontSize: '14px',
       lineHeight: '18px',
     },
-    caption: {
+    subtitle2: {
       fontWeight: 500,
       fontSize: '12px',
-      lineHeight: '17px',
+      lineHeight: '18px',
+    },
+    caption: {
+      fontWeight: 400,
+      fontSize: '12px',
+      lineHeight: '16px',
     },
   },
   components: {
@@ -45,7 +55,6 @@ const theme = createTheme({
           fontFamily: 'Apple SD Gothic Neo',
           maxWidth: '640px',
           margin: '0 auto',
-          padding: '0 16px',
         },
       },
     },
