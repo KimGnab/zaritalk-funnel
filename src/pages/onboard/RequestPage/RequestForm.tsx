@@ -16,7 +16,16 @@ import BoxGroup from '../../../components/BoxGroup';
 import LabeledInput from '../../../components/LabeledInput';
 
 import { updatePayload as fakeUpdateRequest } from '../../../utils/LocalStorageUtil';
+import { differenceInMonths } from 'date-fns';
 
+const DISPLAY_MESSAGE: Record<string, string> = {
+  address: '주소',
+  roomNumber: '호실',
+  name: '세입자 이름',
+  startAt: '계약 시작일',
+  endAt: '계약 종료일',
+  phoneNumber: '임대인 휴대폰 번호',
+};
 const StyledTextField = styled(TextField)({
   '& .MuiOutlinedInput-root fieldset': {
     border: 0,
@@ -34,13 +43,15 @@ interface RequestFormData {
 
 const getMissingFields = (data: RequestFormData) => {
   const missingFields: string[] = [];
-
   Object.entries(data).forEach(([key, value]) => {
     if (!value) {
-      missingFields.push(key);
+      missingFields.push(DISPLAY_MESSAGE[key]);
     }
   });
 
+  if (differenceInMonths(new Date(data.endAt), new Date(data.startAt)) < 0) {
+    missingFields.push('계약 종료일은 시작일보다 빠를 수 없습니다.');
+  }
   return missingFields;
 };
 
@@ -65,7 +76,7 @@ const RequestForm = () => {
   const onSubmit: SubmitHandler<RequestFormData> = async (data) => {
     const missingFields = getMissingFields(data);
     if (missingFields.length > 0) {
-      window.alert(missingFields.join());
+      window.alert('다음항목을 확인해 주세요 😢 \n' + missingFields.join('\n'));
     } else {
       // TODO: 실제 서버에 저장하도록 변경
       const response = await fakeUpdateRequest(data);

@@ -40,17 +40,17 @@ const getMissingFields = ({
   if (!rentType) return [];
 
   const missingFields = [];
-  if (!deposit || Number(deposit) < 0) missingFields.push('deposit');
+  if (!deposit || Number(deposit) < 0) missingFields.push('보증금');
 
   if (rentType === 'MONTHLY') {
     if (!monthlyRent || Number(monthlyRent) < 0)
-      missingFields.push('monthlyRent');
+      missingFields.push('월 임대료');
     if (!monthlyRentPaymentDate || Number(monthlyRentPaymentDate) < 1)
-      missingFields.push('monthlyRentPaymentDate');
+      missingFields.push('임대료 납부일');
   }
 
   if (!maintenanceFee || Number(maintenanceFee) < 0)
-    missingFields.push('maintenanceFee');
+    missingFields.push('월 관리비');
 
   return missingFields;
 };
@@ -75,7 +75,7 @@ const LookupForm = () => {
   const onSubmit: SubmitHandler<LookupFormData> = async (data) => {
     const missingFields = getMissingFields(data);
     if (missingFields.length > 0) {
-      window.alert(missingFields.join());
+      window.alert('다음항목을 확인해 주세요 😢 \n' + missingFields.join('\n'));
     } else {
       // TODO: 실제 서버에 저장하도록 변경
       const response = await fakeSetRequest(data);
