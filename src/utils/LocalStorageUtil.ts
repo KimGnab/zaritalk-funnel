@@ -17,7 +17,7 @@ const getLocalItem = (name: string) => {
   return null;
 };
 
-export const setPayload = (data?: { [ket: string]: any }) => {
+export const setPayload = (data?: PayLoadType) => {
   try {
     setLocalItem(KEY_PAYLOAD, data);
   } catch (e) {
@@ -27,7 +27,9 @@ export const setPayload = (data?: { [ket: string]: any }) => {
   return true;
 };
 
-export const updatePayload = (data?: { [ket: string]: any }) => {
+export const updatePayload = (
+  data: LookupFormData | RequestFormData
+): boolean => {
   try {
     const before = getLocalItem(KEY_PAYLOAD);
     if (!before) {
@@ -43,7 +45,9 @@ export const updatePayload = (data?: { [ket: string]: any }) => {
   return true;
 };
 
-export const getPayload = (): { [ket: string]: any } | null => {
+type PayLoadType = LookupFormData & RequestFormData;
+
+export const getPayload = (): PayLoadType | null => {
   const data = getLocalItem(KEY_PAYLOAD);
   if (!data) return null;
 

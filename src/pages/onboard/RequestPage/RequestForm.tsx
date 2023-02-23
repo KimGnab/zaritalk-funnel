@@ -22,8 +22,8 @@ interface RequestFormData {
   address?: string;
   roomNumber?: string;
   name?: string;
-  startAt: unknown;
-  endAt: unknown;
+  startAt: string;
+  endAt: string;
   phoneNumber?: string;
 }
 
